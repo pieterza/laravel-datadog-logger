@@ -25,6 +25,8 @@ class DataDogFormatter extends JsonFormatter
                 $span->getTraceId(),
                 $span->getSpanId()
             );
+            $record['trace_id'] = $span->getTraceId();
+            $record['span_id'] = $span->getSpanId();
         }
 
         if (isset($record['level_name'])) {
