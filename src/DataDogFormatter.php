@@ -4,6 +4,7 @@ namespace Myli\DatadogLogger;
 
 use DateTime;
 use Monolog\Formatter\JsonFormatter;
+use DDTrace\GlobalTracer;
 
 /**
  */
@@ -17,10 +18,20 @@ class DataDogFormatter extends JsonFormatter
      */
     public function format(array $record): string
     {
+        $span = GlobalTracer::get()->getActiveSpan();
+        if (null !== $span) {
+            $record['message'] .= sprintf(
+                ' [dd.trace_id=%d dd.span_id=%d]',
+                $span->getTraceId(),
+                $span->getSpanId()
+            );
+        }
 
         if (isset($record['level_name'])) {
             $record['status'] = $record['level_name'];
         }
+
+
 
         return parent::format($record);
     }
