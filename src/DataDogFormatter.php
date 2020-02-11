@@ -14,7 +14,7 @@ class DataDogFormatter extends JsonFormatter
     const LARAVEL_LOG_DATETIME_KEY = 'datetime';
 
     /**
-     * simply copy level_name to status as datadog expectations
+     * simply copy level_name to status
      * insert the trace_id and span_id
      */
     public function format(array $record): string
@@ -25,9 +25,9 @@ class DataDogFormatter extends JsonFormatter
                 ' [dd.trace_id=%d dd.span_id=%d]',
                 $span->getTraceId(),
                 $span->getSpanId()
-                $record['dd.trace_id'] =  $span->getTraceId();;
-                $record['dd.span_id'] =  $span->getSpanId();;
             );
+            $record['dd.trace_id'] = $span->getTraceId();
+            $record['dd.span_id'] = $span->getSpanId();
         }
 
         if (isset($record['level_name'])) {
