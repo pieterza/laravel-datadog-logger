@@ -21,12 +21,10 @@ class DataDogFormatter extends JsonFormatter
         $span = GlobalTracer::get()->getActiveSpan();
         if (null !== $span) {
             $record['message'] .= sprintf(
-                ' [dd.trace_id=%d dd.span_id=%d]',
+                ' [dd.trace_id:%d dd.span_id:%d]',
                 $span->getTraceId(),
                 $span->getSpanId()
             );
-            $record['dd.trace_id'] = $span->getTraceId();
-            $record['dd.span_id'] = $span->getSpanId();
         }
 
         if (isset($record['level_name'])) {
